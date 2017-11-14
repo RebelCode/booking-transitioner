@@ -5,6 +5,12 @@ namespace RebelCode\Bookings;
 use Dhii\State\ReadableStateMachineInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
 
+/**
+ * An abstract implementation of a booking transitioner that uses a state machine for transitions and a factory for
+ * creating new bookings.
+ *
+ * @since [*next-version*]
+ */
 abstract class AbstractFactoryStateMachineTransitioner extends AbstractStateMachineTransitioner
 {
     /**

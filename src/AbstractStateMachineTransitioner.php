@@ -26,7 +26,7 @@ abstract class AbstractStateMachineTransitioner
      * @param BookingInterface       $booking    The booking to transition.
      * @param string|Stringable|null $transition The transition to apply.
      *
-     * @return BookingInterface
+     * @return BookingInterface The transitioned booking. May or may not be the same instance as the first argument.
      */
     protected function _transition(BookingInterface $booking, $transition)
     {
