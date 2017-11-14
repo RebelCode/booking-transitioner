@@ -132,8 +132,7 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
         BookingInterface $booking,
         $transition,
         ReadableStateMachineInterface $stateMachine
-    )
-    {
+    ) {
         return $this->_getBookingFactoryInstance();
     }
 

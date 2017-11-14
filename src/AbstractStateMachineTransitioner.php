@@ -67,11 +67,11 @@ abstract class AbstractStateMachineTransitioner
      * @param string|Stringable|null $transition   The transition to submit to the state machine.
      * @param StateMachineInterface  $stateMachine The state machine.
      *
-     * @return ReadableStateMachineInterface The resulting state machine.
-     *
-     * @throws StateMachineExceptionInterface If the state machine encountered an error.
+     * @throws StateMachineExceptionInterface         If the state machine encountered an error.
      * @throws SmCouldNotTransitionExceptionInterface If the state machine could not transition.
-     * @throws TransitionerExceptionInterface If the resulting state machine is not readable.
+     * @throws TransitionerExceptionInterface         If the resulting state machine is not readable.
+     *
+     * @return ReadableStateMachineInterface The resulting state machine.
      */
     protected function _doStateMachineTransition(
         BookingInterface $booking,
