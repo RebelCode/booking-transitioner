@@ -37,6 +37,7 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
                      ->setMethods(
                          array_merge(
                              [
+                                 '_normalizeTransition',
                                  '_getStateMachine',
                                  '_createTransitionerException',
                                  '_createCouldNotTransitionException',
@@ -47,6 +48,7 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
                      )
                      ->getMockForAbstractClass();
 
+        $mock->method('_normalizeTransition')->willReturnArgument(1);
         $mock->method('__')->willReturnArgument(0);
         $mock->method('_createTransitionerException')->willReturnCallback(
             function($message = '', $code = 0, $prev = null) {

@@ -37,6 +37,7 @@ class AbstractStateMachineTransitionerTest extends TestCase
                      ->setMethods(
                          array_merge(
                              [
+                                 '_normalizeTransition',
                                  '_getStateMachine',
                                  '_getBooking',
                                  '_createTransitionerException',
@@ -48,6 +49,7 @@ class AbstractStateMachineTransitionerTest extends TestCase
                      )
                      ->getMockForAbstractClass();
 
+        $mock->method('_normalizeTransition')->willReturnArgument(1);
         $mock->method('__')->willReturnArgument(0);
         $mock->method('_createTransitionerException')->willReturnCallback(
             function($message = '', $code = 0, $prev = null) {
@@ -195,26 +197,6 @@ class AbstractStateMachineTransitionerTest extends TestCase
     }
 
     /**
-     * Tests the transition normalization method to ensure that the transition remains the same.
-     * This is the intended default behavior for this method.
-     *
-     * @since [*next-version*]
-     */
-    public function testNormalizeTransition()
-    {
-        $subject    = $this->createInstance();
-        $reflect    = $this->reflect($subject);
-        $booking    = $this->createBooking();
-        $transition = uniqid('transition-');
-
-        $this->assertEquals(
-            $transition,
-            $reflect->_normalizeTransition($booking, $transition),
-            'Input and output transitions are not the same.'
-        );
-    }
-
-    /**
      * Tests the state machine transitioner method to ensure that the returned state machine is a result of the
      * state machine's transition.
      *
@@ -280,41 +262,34 @@ class AbstractStateMachineTransitionerTest extends TestCase
      */
     public function testTransition()
     {
-        $subject = $this->createInstance(['_normalizeTransition', '_doStateMachineTransition']);
+        $subject = $this->createInstance(['_doStateMachineTransition']);
         $reflect = $this->reflect($subject);
 
         $transition    = uniqid('transition-');
-        $nTransition   = uniqid('transition-');
         $booking       = $this->createBooking();
         $newBooking    = $this->createBooking();
         $stateMachine  = $this->createStateMachine();
         $rStateMachine = $this->createReadableStateMachine();
 
-        // Mock transition normalization to return a new transition
-        $subject->expects($this->once())
-                ->method('_normalizeTransition')
-                ->with($booking, $transition)
-                ->willReturn($nTransition);
-
         // Mock state machine getter to return a state machine
         // when given the argument booking and normalized transition.
         $subject->expects($this->once())
                 ->method('_getStateMachine')
-                ->with($booking, $nTransition)
+                ->with($booking, $transition)
                 ->willReturn($stateMachine);
 
         // Mock and expect the state machine transition method to return a readable state machine
         // when given the argument booking, normalized transition and state machine.
         $subject->expects($this->once())
                 ->method('_doStateMachineTransition')
-                ->with($booking, $nTransition, $stateMachine)
+                ->with($booking, $transition, $stateMachine)
                 ->willReturn($rStateMachine);
 
         // Mock and expect the booking getter to return a new booking
         // when given the argument booking, normalized transition and readable state machine
         $subject->expects($this->once())
                 ->method('_getBooking')
-                ->with($booking, $nTransition, $rStateMachine)
+                ->with($booking, $transition, $rStateMachine)
                 ->willReturn($newBooking);
 
         $result = $reflect->_transition($booking, $transition);
@@ -329,24 +304,17 @@ class AbstractStateMachineTransitionerTest extends TestCase
      */
     public function testTransitionNullStateMachine()
     {
-        $subject = $this->createInstance(['_normalizeTransition']);
+        $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $transition  = uniqid('transition-');
-        $nTransition = uniqid('transition-');
-        $booking     = $this->createBooking();
-
-        // Mock and expect the transition normalization to return a new transition
-        $subject->expects($this->once())
-                ->method('_normalizeTransition')
-                ->with($booking, $transition)
-                ->willReturn($nTransition);
+        $transition = uniqid('transition-');
+        $booking    = $this->createBooking();
 
         // Mock and expect the state machine getter to return a state machine
         // when given the argument booking and normalized transition.
         $subject->expects($this->once())
                 ->method('_getStateMachine')
-                ->with($booking, $nTransition)
+                ->with($booking, $transition)
                 ->willReturn(null);
 
         $this->setExpectedException('Exception');
@@ -361,32 +329,25 @@ class AbstractStateMachineTransitionerTest extends TestCase
      */
     public function testTransitionStateMachineException()
     {
-        $subject = $this->createInstance(['_normalizeTransition', '_doStateMachineTransition']);
+        $subject = $this->createInstance(['_doStateMachineTransition']);
         $reflect = $this->reflect($subject);
 
         $transition   = uniqid('transition-');
-        $nTransition  = uniqid('transition-');
         $booking      = $this->createBooking();
         $stateMachine = $this->createStateMachine();
         $smException  = $this->createStateMachineException();
-
-        // Mock and expect the transition normalization to return a new transition
-        $subject->expects($this->once())
-                ->method('_normalizeTransition')
-                ->with($booking, $transition)
-                ->willReturn($nTransition);
 
         // Mock and expect the state machine getter to return a state machine
         // when given the argument booking and normalized transition.
         $subject->expects($this->once())
                 ->method('_getStateMachine')
-                ->with($booking, $nTransition)
+                ->with($booking, $transition)
                 ->willReturn($stateMachine);
 
         // Mock and expect the state machine transition method to throw a state-machine exception
         $subject->expects($this->once())
                 ->method('_doStateMachineTransition')
-                ->with($booking, $nTransition, $stateMachine)
+                ->with($booking, $transition, $stateMachine)
                 ->willThrowException($smException);
 
         try {
@@ -409,32 +370,25 @@ class AbstractStateMachineTransitionerTest extends TestCase
      */
     public function testTransitionCouldNotTransitionException()
     {
-        $subject = $this->createInstance(['_normalizeTransition', '_doStateMachineTransition']);
+        $subject = $this->createInstance(['_doStateMachineTransition']);
         $reflect = $this->reflect($subject);
 
         $transition   = uniqid('transition-');
-        $nTransition  = uniqid('transition-');
         $booking      = $this->createBooking();
         $stateMachine = $this->createStateMachine();
         $cntException = $this->createCouldNotTransitionException();
-
-        // Mock transition normalization to return a new transition
-        $subject->expects($this->once())
-                ->method('_normalizeTransition')
-                ->with($booking, $transition)
-                ->willReturn($nTransition);
 
         // Mock state machine getter to return a state machine
         // when given the argument booking and normalized transition.
         $subject->expects($this->once())
                 ->method('_getStateMachine')
-                ->with($booking, $nTransition)
+                ->with($booking, $transition)
                 ->willReturn($stateMachine);
 
         // Mock and expect the state machine transition method to throw a could-not-transition exception
         $subject->expects($this->once())
                 ->method('_doStateMachineTransition')
-                ->with($booking, $nTransition, $stateMachine)
+                ->with($booking, $transition, $stateMachine)
                 ->willThrowException($cntException);
 
         try {

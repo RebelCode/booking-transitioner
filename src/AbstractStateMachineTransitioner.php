@@ -59,23 +59,6 @@ abstract class AbstractStateMachineTransitioner
     }
 
     /**
-     * Normalizes a transition before passing it on to the state machine.
-     *
-     * By default, the state machine transition is equivalent to the given booking transition.
-     *
-     * @since [*next-version*]
-     *
-     * @param BookingInterface       $booking    The booking that is about to be transitioned.
-     * @param string|Stringable|null $transition The transition to normalize.
-     *
-     * @return string|Stringable|null The normalized transition.
-     */
-    protected function _normalizeTransition(BookingInterface $booking, $transition)
-    {
-        return $transition;
-    }
-
-    /**
      * Applies a transition to a state machine.
      *
      * @since [*next-version*]
@@ -107,6 +90,20 @@ abstract class AbstractStateMachineTransitioner
             null
         );
     }
+
+    /**
+     * Normalizes a transition before passing it on to the state machine.
+     *
+     * By default, the state machine transition is equivalent to the given booking transition.
+     *
+     * @since [*next-version*]
+     *
+     * @param BookingInterface       $booking    The booking that is about to be transitioned.
+     * @param string|Stringable|null $transition The transition to normalize.
+     *
+     * @return string|Stringable|null The normalized transition.
+     */
+    abstract protected function _normalizeTransition(BookingInterface $booking, $transition);
 
     /**
      * Retrieves the state machine associated with this instance.
