@@ -87,6 +87,16 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
      *
      * @since [*next-version*]
      */
+    protected function _normalizeTransition(BookingInterface $booking, $transition)
+    {
+        return $transition;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
     protected function _getStateMachine(BookingInterface $booking, $transition)
     {
         return $this->_getStateMachineInstance();

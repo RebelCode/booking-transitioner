@@ -142,6 +142,25 @@ class FactoryStateMachineTransitionerTest extends TestCase
     }
 
     /**
+     * Tests the transition normalization method to ensure that the transition remains the same.
+     *
+     * @since [*next-version*]
+     */
+    public function testNormalizeTransition()
+    {
+        $subject    = $this->createInstance();
+        $reflect    = $this->reflect($subject);
+        $booking    = $this->createBooking();
+        $transition = uniqid('transition-');
+
+        $this->assertEquals(
+            $transition,
+            $reflect->_normalizeTransition($booking, $transition),
+            'Input and output transitions are not the same.'
+        );
+    }
+
+    /**
      * Tests the transition method.
      *
      * @since [*next-version*]
