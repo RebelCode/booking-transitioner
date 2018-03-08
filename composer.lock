@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "be19f345ed4b7562204f60988d5bad16",
+    "content-hash": "bbc83aae7f8627e9770f03325d630f03",
     "packages": [
         {
             "name": "dhii/data-key-value-aware-interface",
@@ -574,16 +574,16 @@
         },
         {
             "name": "rebelcode/booking-abstract",
-            "version": "dev-task/initial-classes",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RebelCode/booking-abstract.git",
-                "reference": "9fbba5ed87f04f69e990b7f75da7bc9faab90b9a"
+                "reference": "c377036702a44b4ea6f5578382f462085afca9d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RebelCode/booking-abstract/zipball/9fbba5ed87f04f69e990b7f75da7bc9faab90b9a",
-                "reference": "9fbba5ed87f04f69e990b7f75da7bc9faab90b9a",
+                "url": "https://api.github.com/repos/RebelCode/booking-abstract/zipball/c377036702a44b4ea6f5578382f462085afca9d0",
+                "reference": "c377036702a44b4ea6f5578382f462085afca9d0",
                 "shasum": ""
             },
             "require": {
@@ -616,7 +616,7 @@
                 }
             ],
             "description": "Abstract functionality for bookings",
-            "time": "2017-10-18T14:26:18+00:00"
+            "time": "2017-11-08T11:31:54+00:00"
         },
         {
             "name": "rebelcode/booking-interface",

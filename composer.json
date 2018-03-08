@@ -14,7 +14,7 @@
     "require": {
         "php": "^5.4 | ^7.0",
         "rebelcode/booking-interface": "dev-task/initial-interfaces",
-        "rebelcode/booking-abstract": "dev-task/initial-classes",
+        "rebelcode/booking-abstract": "dev-develop",
         "rebelcode/booking-transitioner-interface": "dev-develop",
         "dhii/machine-state-machine-interface": "dev-develop",
         "dhii/state-machine-abstract": "dev-task/initial-classes",
