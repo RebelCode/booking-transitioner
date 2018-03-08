@@ -42,18 +42,18 @@ abstract class AbstractStateMachineTransitioner
             $newBooking    = $this->_getBooking($booking, $nTransition, $rStateMachine);
 
             return $newBooking;
-        } catch (StateMachineExceptionInterface $smException) {
-            throw $this->_createTransitionerException(
-                $this->__('An error occurred during transition'),
-                null,
-                $smException
-            );
         } catch (SmCouldNotTransitionExceptionInterface $smtException) {
             throw $this->_createCouldNotTransitionException(
                 $this->__('Failed to transition booking'),
                 null,
                 $smtException,
                 $booking
+            );
+        } catch (StateMachineExceptionInterface $smException) {
+            throw $this->_createTransitionerException(
+                $this->__('An error occurred during transition'),
+                null,
+                $smException
             );
         }
     }
