@@ -64,9 +64,9 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
      * @since [*next-version*]
      *
      * @param ReadableStateMachineInterface $machine        The state machine.
-     * @param callable|null                 $bookingFactory The factory callable for creating bookings.
+     * @param BookingFactoryInterface|null  $bookingFactory The factory callable for creating bookings.
      */
-    public function __construct(ReadableStateMachineInterface $machine, callable $bookingFactory = null)
+    public function __construct(ReadableStateMachineInterface $machine, BookingFactoryInterface $bookingFactory = null)
     {
         $this->_setStateMachine($machine);
         $this->_setBookingFactoryInstance($bookingFactory);
