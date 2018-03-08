@@ -2,7 +2,7 @@
 
 namespace RebelCode\Bookings\Transitioner\UnitTest;
 
-use Dhii\Exception\Exception;
+use Exception;
 use PHPUnit_Framework_MockObject_MockBuilder;
 use PHPUnit_Framework_MockObject_MockObject;
 use RebelCode\Bookings\BookingInterface;
@@ -56,7 +56,7 @@ class AbstractStateMachineTransitionerTest extends TestCase
                 return new Exception($message, $code, $prev);
             }
         );
-        $mock->method('_createCouldNotTransitionException')->willReturn(
+        $mock->method('_createCouldNotTransitionException')->willReturnCallback(
             function($message = '', $code = 0, $prev = null) {
                 return new Exception($message, $code, $prev);
             }
@@ -153,7 +153,7 @@ class AbstractStateMachineTransitionerTest extends TestCase
         $mockBuilder->setMethods(['getStateMachine']);
         $mockBuilder->setConstructorArgs([$msg, $code, $prev]);
 
-        return $mockBuilder->getMock();
+        return $mockBuilder->getMockForAbstractClass();
     }
 
     /**
