@@ -5,6 +5,7 @@ namespace RebelCode\Bookings\Factory;
 use Exception as RootException;
 use Dhii\Util\String\StringableInterface as Stringable;
 use InvalidArgumentException;
+use RebelCode\Bookings\BookingFactoryInterface;
 
 /**
  * Common functionality for objects that are aware of a booking factory.
@@ -18,7 +19,7 @@ trait BookingFactoryAwareTrait
      *
      * @since [*next-version*]
      *
-     * @var callable|null
+     * @var BookingFactoryInterface|null
      */
     protected $bookingFactory;
 
@@ -27,7 +28,7 @@ trait BookingFactoryAwareTrait
      *
      * @since [*next-version*]
      *
-     * @return callable|null The booking factory callback function, if any.
+     * @return BookingFactoryInterface|null The booking factory instance, if any.
      */
     protected function _getBookingFactory()
     {
@@ -39,13 +40,13 @@ trait BookingFactoryAwareTrait
      *
      * @since [*next-version*]
      *
-     * @param callable|null $bookingFactory The booking factory callback function, or null.
+     * @param BookingFactoryInterface|null $bookingFactory The booking factory instance, or null.
      */
     protected function _setBookingFactory($bookingFactory)
     {
-        if ($bookingFactory !== null && !is_callable($bookingFactory)) {
+        if ($bookingFactory !== null && !($bookingFactory instanceof BookingFactoryInterface)) {
             throw $this->_createInvalidArgumentException(
-                $this->__('Argument is not a valid callable'),
+                $this->__('Argument is not a valid booking factory'),
                 null,
                 null,
                 $bookingFactory
