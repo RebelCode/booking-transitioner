@@ -13,7 +13,6 @@
       <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/vendor/symfony/process" />
-      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/vendor/symfony/config" />
@@ -44,19 +43,22 @@
       <path value="$PROJECT_DIR$/vendor/dhii/exception" />
       <path value="$PROJECT_DIR$/vendor/dhii/i18n-helper-base" />
       <path value="$PROJECT_DIR$/vendor/dhii/data-key-value-aware-interface" />
-      <path value="$PROJECT_DIR$/vendor/dhii/exception-interface" />
       <path value="$PROJECT_DIR$/vendor/dhii/stringable-interface" />
       <path value="$PROJECT_DIR$/vendor/dhii/machine-state-machine-interface" />
       <path value="$PROJECT_DIR$/vendor/rebelcode/booking-interface" />
       <path value="$PROJECT_DIR$/vendor/rebelcode/booking-transitioner-interface" />
       <path value="$PROJECT_DIR$/vendor/rebelcode/time-abstract" />
       <path value="$PROJECT_DIR$/vendor/rebelcode/booking-abstract" />
+      <path value="$PROJECT_DIR$/vendor/dhii/normalization-helper-base" />
+      <path value="$PROJECT_DIR$/vendor/dhii/exception-interface" />
+      <path value="$PROJECT_DIR$/vendor/dhii/factory-interface" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="5.4.0" />
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="D:/dev/rebelcode/booking-transitioner/vendor/autoload.php" />
+      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" />
     </phpunit_settings>
   </component>
 </project>
