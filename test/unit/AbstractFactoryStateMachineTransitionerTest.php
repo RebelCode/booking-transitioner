@@ -5,6 +5,7 @@ namespace RebelCode\Bookings\Transitioner\UnitTest;
 use Dhii\State\ReadableStateMachineInterface;
 use Exception;
 use PHPUnit_Framework_MockObject_MockObject;
+use RebelCode\Bookings\BookingFactoryInterface;
 use RebelCode\Bookings\BookingInterface;
 use Xpmock\TestCase;
 
@@ -101,6 +102,23 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
     }
 
     /**
+     * Creates a mock booking factory instance for testing purposes.
+     *
+     * @since [*next-version*]
+     *
+     * @param BookingInterface|null $booking The booking to be returned by the factory's `make()` method.
+     *
+     * @return BookingFactoryInterface
+     */
+    public function createBookingFactory($booking = null)
+    {
+        $mock = $this->mock('RebelCode\Bookings\BookingFactoryInterface')
+                     ->make($booking);
+
+        return $mock->new();
+    }
+
+    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -157,9 +175,7 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
                 ->with($inBooking, $transition, $machine)
                 ->willReturn([]);
 
-        $factory = function() use ($outBooking) {
-            return $outBooking;
-        };
+        $factory = $this->createBookingFactory($outBooking);
 
         $subject->expects($this->once())
                 ->method('_getBookingFactory')

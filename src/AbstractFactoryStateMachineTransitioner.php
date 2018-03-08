@@ -25,7 +25,7 @@ abstract class AbstractFactoryStateMachineTransitioner extends AbstractStateMach
     ) {
         $factory    = $this->_getBookingFactory($booking, $transition, $stateMachine);
         $args       = $this->_getBookingFactoryArgs($booking, $transition, $stateMachine);
-        $newBooking = call_user_func_array($factory, $args);
+        $newBooking = $factory->make($args);
 
         return $newBooking;
     }
@@ -50,7 +50,7 @@ abstract class AbstractFactoryStateMachineTransitioner extends AbstractStateMach
     }
 
     /**
-     * Retrieves the booking factory callable to use to create the new booking instance.
+     * Retrieves the booking factory to use to create the new booking instance.
      *
      * @since [*next-version*]
      *
@@ -58,7 +58,7 @@ abstract class AbstractFactoryStateMachineTransitioner extends AbstractStateMach
      * @param string|Stringable|null        $transition   The transition.
      * @param ReadableStateMachineInterface $stateMachine The state machine.
      *
-     * @return callable The booking factory callable. Must return a {@link BookingInterface}.
+     * @return BookingFactoryInterface The booking factory.
      */
     abstract protected function _getBookingFactory(
         BookingInterface $booking,
