@@ -2,8 +2,11 @@
 
 namespace RebelCode\Bookings;
 
+use ArrayAccess;
 use Dhii\State\ReadableStateMachineInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
+use Psr\Container\ContainerInterface;
+use stdClass;
 
 /**
  * An abstract implementation of a booking transitioner that uses a state machine for transitions and a factory for
@@ -35,18 +38,23 @@ abstract class AbstractFactoryStateMachineTransitioner extends AbstractStateMach
      *
      * @since [*next-version*]
      *
-     * @param BookingInterface              $booking
-     * @param string|Stringable|null        $transition
-     * @param ReadableStateMachineInterface $stateMachine
+     * @param BookingInterface              $booking      The booking.
+     * @param string|Stringable|null        $transition   The transition.
+     * @param ReadableStateMachineInterface $stateMachine The state machine.
      *
-     * @return array
+     * @return array|ArrayAccess|stdClass|ContainerInterface
      */
     protected function _getBookingFactoryArgs(
         BookingInterface $booking,
         $transition,
         ReadableStateMachineInterface $stateMachine
     ) {
-        return [$booking, $transition, $stateMachine];
+        return [
+            'start'    => $booking->getStart(),
+            'end'      => $booking->getEnd(),
+            'duration' => $booking->getDuration(),
+            'status'   => $stateMachine->getState(),
+        ];
     }
 
     /**
