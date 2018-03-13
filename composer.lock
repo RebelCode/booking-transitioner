@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bbc83aae7f8627e9770f03325d630f03",
+    "content-hash": "9cc8975d04e62baaee49f50b135d2534",
     "packages": [
         {
             "name": "dhii/data-key-value-aware-interface",
@@ -439,12 +439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dhii/state-machine-abstract.git",
-                "reference": "83b9929418958578c8ed091f8fc6a72571c59fa8"
+                "reference": "1f13a7d11c3c2adef8b7f085f1acea1608dfb19e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/state-machine-abstract/zipball/83b9929418958578c8ed091f8fc6a72571c59fa8",
-                "reference": "83b9929418958578c8ed091f8fc6a72571c59fa8",
+                "url": "https://api.github.com/repos/Dhii/state-machine-abstract/zipball/1f13a7d11c3c2adef8b7f085f1acea1608dfb19e",
+                "reference": "1f13a7d11c3c2adef8b7f085f1acea1608dfb19e",
                 "shasum": ""
             },
             "require": {
@@ -452,7 +452,7 @@
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "<=0.3.2",
-                "dhii/machine-state-machine-interface": "dev-task/initial-interfaces",
+                "dhii/machine-state-machine-interface": "dev-develop",
                 "dhii/php-cs-fixer-config": "^0.1",
                 "dhii/stringable-interface": "^0.1",
                 "phpunit/phpunit": "^4.8",
@@ -464,14 +464,7 @@
                     "Dhii\\State\\": "src"
                 }
             },
-            "scripts": {
-                "test": [
-                    "phpunit"
-                ],
-                "csfix": [
-                    "php-cs-fixer fix -vvv"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -482,11 +475,7 @@
                 }
             ],
             "description": "Abstract functionality for state machines.",
-            "support": {
-                "source": "https://github.com/Dhii/state-machine-abstract/tree/task/initial-classes",
-                "issues": "https://github.com/Dhii/state-machine-abstract/issues"
-            },
-            "time": "2017-09-29T12:56:17+00:00"
+            "time": "2018-03-08T15:26:38+00:00"
         },
         {
             "name": "dhii/stringable-interface",
@@ -578,17 +567,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RebelCode/booking-abstract.git",
-                "reference": "c377036702a44b4ea6f5578382f462085afca9d0"
+                "reference": "b8213265a5970e9696919b29042dbb7fbc4eb81a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RebelCode/booking-abstract/zipball/c377036702a44b4ea6f5578382f462085afca9d0",
-                "reference": "c377036702a44b4ea6f5578382f462085afca9d0",
+                "url": "https://api.github.com/repos/RebelCode/booking-abstract/zipball/b8213265a5970e9696919b29042dbb7fbc4eb81a",
+                "reference": "b8213265a5970e9696919b29042dbb7fbc4eb81a",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.4 | ^7.0",
-                "rebelcode/time-abstract": "dev-task/initial-classes"
+                "rebelcode/time-abstract": "dev-develop"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "<=0.3.2",
@@ -616,7 +605,7 @@
                 }
             ],
             "description": "Abstract functionality for bookings",
-            "time": "2017-11-08T11:31:54+00:00"
+            "time": "2018-03-08T15:49:42+00:00"
         },
         {
             "name": "rebelcode/booking-interface",
@@ -710,16 +699,16 @@
         },
         {
             "name": "rebelcode/time-abstract",
-            "version": "dev-task/initial-classes",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RebelCode/time-abstract.git",
-                "reference": "732b44625a394641ac42701b4e52b043ca57e6d3"
+                "reference": "a43e7ab9c2097e2980c3a0addc2096656f2b5ec2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RebelCode/time-abstract/zipball/732b44625a394641ac42701b4e52b043ca57e6d3",
-                "reference": "732b44625a394641ac42701b4e52b043ca57e6d3",
+                "url": "https://api.github.com/repos/RebelCode/time-abstract/zipball/a43e7ab9c2097e2980c3a0addc2096656f2b5ec2",
+                "reference": "a43e7ab9c2097e2980c3a0addc2096656f2b5ec2",
                 "shasum": ""
             },
             "require": {
@@ -735,6 +724,11 @@
                 "ptrofimov/xpmock": "^1.1"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "RebelCode\\Time\\": "src"
@@ -751,7 +745,7 @@
                 }
             ],
             "description": "Abstract functionality for dealing with time.",
-            "time": "2017-10-19T16:21:27+00:00"
+            "time": "2017-12-28T10:43:00+00:00"
         }
     ],
     "packages-dev": [
@@ -812,6 +806,61 @@
                 "coverage"
             ],
             "time": "2016-04-19T16:54:33+00:00"
+        },
+        {
+            "name": "dhii/cqrs-resource-model-interface",
+            "version": "v0.1-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/cqrs-resource-model-interface.git",
+                "reference": "38273c0314b80b9ab575ac8129071ee6fc0d5bdf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/cqrs-resource-model-interface/zipball/38273c0314b80b9ab575ac8129071ee6fc0d5bdf",
+                "reference": "38273c0314b80b9ab575ac8129071ee6fc0d5bdf",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/expression-interface": "^0.2",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "dhii/sql-interface": "^0.1",
+                "dhii/stringable-interface": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "psr/container": "^1.0",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "suggest": {
+                "dhii/expression-interface": "To create query conditions and value expressions.",
+                "dhii/stringable-interface": "To pass stringable objects in place of strings."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Storage\\Resource\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Interfaces for a CQRS approach to resource models.",
+            "time": "2018-03-08T10:51:04+00:00"
         },
         {
             "name": "dhii/php-cs-fixer-config",
@@ -1549,6 +1598,55 @@
                 "xunit"
             ],
             "time": "2015-10-02T06:51:40+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/log",
