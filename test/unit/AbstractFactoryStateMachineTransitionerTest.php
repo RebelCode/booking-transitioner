@@ -70,15 +70,20 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
      *
      * @since [*next-version*]
      *
+     * @param int    $start
+     * @param int    $end
+     * @param int    $duration
+     * @param string $status
+     *
      * @return BookingInterface
      */
-    public function createBooking()
+    public function createBooking($start = 0, $end = 0, $duration = 0, $status = '')
     {
         $mock = $this->mock('RebelCode\Bookings\BookingInterface')
-                     ->getStart()
-                     ->getEnd()
-                     ->getDuration()
-                     ->getStatus();
+                     ->getStart($start)
+                     ->getEnd($end)
+                     ->getDuration($duration)
+                     ->getStatus($status);
 
         return $mock->new();
     }
@@ -88,15 +93,16 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
      *
      * @since [*next-version*]
      *
+     * @param string $state
+     *
      * @return ReadableStateMachineInterface
      */
-    public function createReadableStateMachine()
+    public function createReadableStateMachine($state = '')
     {
         $mock = $this->mock('Dhii\State\ReadableStateMachineInterface')
                      ->transition()
                      ->canTransition()
-                     ->getState()
-                     ->getState();
+                     ->getState($state);
 
         return $mock->new();
     }
@@ -144,12 +150,22 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $booking    = $this->createBooking();
+        $start = rand(0, 10000);
+        $end = rand(0, 10000);
+        $duration = rand(0, 10000);
+        $state = uniqid('state-');
+
+        $booking    = $this->createBooking($start, $end, $duration);
         $transition = uniqid('transition-');
-        $machine    = $this->createReadableStateMachine();
+        $machine    = $this->createReadableStateMachine($state);
 
         $args     = $reflect->_getBookingFactoryArgs($booking, $transition, $machine);
-        $expected = [$booking, $transition, $machine];
+        $expected = [
+            'start'    => $start,
+            'end'      => $end,
+            'duration' => $duration,
+            'status'   => $state,
+        ];
 
         $this->assertEquals($expected, $args, 'Expected and retrieved args do not match');
     }
