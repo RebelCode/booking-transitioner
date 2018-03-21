@@ -80,6 +80,7 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
     public function createBooking($start = 0, $end = 0, $duration = 0, $status = '')
     {
         $mock = $this->mock('RebelCode\Bookings\BookingInterface')
+                     ->getId()
                      ->getStart($start)
                      ->getEnd($end)
                      ->getDuration($duration)
