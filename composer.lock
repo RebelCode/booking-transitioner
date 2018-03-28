@@ -4,8 +4,261 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b500332f654ede10436893107eb429d",
+    "content-hash": "47ad82380f04a0bb6312933ad8b4eaf7",
     "packages": [
+        {
+            "name": "dhii/callback-abstract",
+            "version": "v0.1-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/callback-abstract.git",
+                "reference": "42924b3294200a4f98593734123bb4519637ca43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/callback-abstract/zipball/42924b3294200a4f98593734123bb4519637ca43",
+                "reference": "42924b3294200a4f98593734123bb4519637ca43",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/invocable-interface": "^0.1",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "dhii/stringable-interface": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "suggest": {
+                "dhii/normalization-helper-base": "To normalize lists and other types"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Invocation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Abstract functionality for working with callbacks.",
+            "time": "2018-02-12T16:47:00+00:00"
+        },
+        {
+            "name": "dhii/container-helper-base",
+            "version": "v0.1-alpha5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/container-helper-base.git",
+                "reference": "701dc8e6c5cbf5ab998fae8a7c178da86d69c4f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/container-helper-base/zipball/701dc8e6c5cbf5ab998fae8a7c178da86d69c4f1",
+                "reference": "701dc8e6c5cbf5ab998fae8a7c178da86d69c4f1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "^0.1",
+                "dhii/stringable-interface": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "psr/container": "^1.0",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Data\\Container\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Helper functionality for working with container.",
+            "time": "2018-02-16T13:22:06+00:00"
+        },
+        {
+            "name": "dhii/data-container-abstract",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/data-container-abstract.git",
+                "reference": "af4bdda83cdb05ea26a3cb7042172dc8b82d55b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/data-container-abstract/zipball/af4bdda83cdb05ea26a3cb7042172dc8b82d55b7",
+                "reference": "af4bdda83cdb05ea26a3cb7042172dc8b82d55b7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/data-container-interface": "^0.1 | ^0.2",
+                "dhii/php-cs-fixer-config": "^0.1",
+                "dhii/stringable-interface": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "suggest": {
+                "dhii/data-container-interface": "To be able to set and get containers",
+                "dhii/stringable-interface": "To be able to pass Stringable objects instead of strings"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Data\\Container\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Abstract functionality for working with data containers.",
+            "time": "2018-01-30T17:06:31+00:00"
+        },
+        {
+            "name": "dhii/data-container-base",
+            "version": "v0.1-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/data-container-base.git",
+                "reference": "ed3289171827cdc910d74c5ef76aab5f5985dace"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/data-container-base/zipball/ed3289171827cdc910d74c5ef76aab5f5985dace",
+                "reference": "ed3289171827cdc910d74c5ef76aab5f5985dace",
+                "shasum": ""
+            },
+            "require": {
+                "dhii/data-container-abstract": "^0.1",
+                "dhii/data-container-interface": "^0.1 | ^0.2",
+                "dhii/exception": "^0.1",
+                "dhii/i18n-helper-base": "^0.1",
+                "dhii/normalization-helper-base": "^0.1",
+                "php": "^5.4 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Data\\Container\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Base functionality for container implementations",
+            "time": "2018-03-16T18:58:30+00:00"
+        },
+        {
+            "name": "dhii/data-container-interface",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/data-container-interface.git",
+                "reference": "57f589f402006639594e9884258712ce4ee463bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/data-container-interface/zipball/57f589f402006639594e9884258712ce4ee463bc",
+                "reference": "57f589f402006639594e9884258712ce4ee463bc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 | ^7.0",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "dhii/stringable-interface": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "suggest": {
+                "dhii/stringable-interface": "To be able to pass Stringables as keys"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Data\\Container\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Interfaces for working with data containers",
+            "time": "2017-08-14T14:41:16+00:00"
+        },
         {
             "name": "dhii/data-identifiable-interface",
             "version": "v0.1",
@@ -92,16 +345,16 @@
         },
         {
             "name": "dhii/exception",
-            "version": "v0.1-alpha1",
+            "version": "v0.1-alpha4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dhii/exception.git",
-                "reference": "d228ddf648d2be0691aab9f956db7a4c1168ea28"
+                "reference": "848b8e2b7fe3a38456707bd6292baf1e7caaf9e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/exception/zipball/d228ddf648d2be0691aab9f956db7a4c1168ea28",
-                "reference": "d228ddf648d2be0691aab9f956db7a4c1168ea28",
+                "url": "https://api.github.com/repos/Dhii/exception/zipball/848b8e2b7fe3a38456707bd6292baf1e7caaf9e0",
+                "reference": "848b8e2b7fe3a38456707bd6292baf1e7caaf9e0",
                 "shasum": ""
             },
             "require": {
@@ -110,9 +363,13 @@
                 "dhii/normalization-helper-base": "^0.1",
                 "php": "^5.4 | ^7.0"
             },
+            "replace": {
+                "dhii/exception-helper-base": "0.1-alpha1|0.1-alpha2"
+            },
             "require-dev": {
                 "codeclimate/php-test-reporter": "<=0.3.2",
                 "dhii/php-cs-fixer-config": "^0.1",
+                "dhii/stringable-interface": "^0.1",
                 "phpunit/phpunit": "^4.8",
                 "ptrofimov/xpmock": "^1.1"
             },
@@ -138,60 +395,7 @@
                 }
             ],
             "description": "Standards-compliant exception classes",
-            "time": "2018-03-07T09:45:52+00:00"
-        },
-        {
-            "name": "dhii/exception-helper-base",
-            "version": "v0.1-alpha1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Dhii/exception-helper-base.git",
-                "reference": "91ccca551b046a9c0b17bdf0ede9159e220327c1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/exception-helper-base/zipball/91ccca551b046a9c0b17bdf0ede9159e220327c1",
-                "reference": "91ccca551b046a9c0b17bdf0ede9159e220327c1",
-                "shasum": ""
-            },
-            "require": {
-                "dhii/exception": "0.1-alpha1",
-                "php": "^5.4 | ^7.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "<=0.3.2",
-                "dhii/php-cs-fixer-config": "^0.1",
-                "dhii/stringable-interface": "^0.1",
-                "phpunit/phpunit": "^4.8",
-                "ptrofimov/xpmock": "^1.1"
-            },
-            "suggest": {
-                "dhii/stringable-interface": "To be able to pass stringables instead of strings in some cases"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dhii\\Exception\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dhii Team",
-                    "email": "development@dhii.co"
-                }
-            ],
-            "description": "Base functionality for exception helpers",
-            "abandoned": "dhii/exception",
-            "time": "2018-03-07T10:02:04+00:00"
+            "time": "2018-03-16T13:46:13+00:00"
         },
         {
             "name": "dhii/exception-interface",
@@ -240,6 +444,58 @@
             ],
             "description": "Interfaces for most common exceptions",
             "time": "2018-02-23T13:24:59+00:00"
+        },
+        {
+            "name": "dhii/factory-base",
+            "version": "v0.1-alpha1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/factory-base.git",
+                "reference": "4afe3cb4db0a94252cc5b339522c28e7a4212165"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/factory-base/zipball/4afe3cb4db0a94252cc5b339522c28e7a4212165",
+                "reference": "4afe3cb4db0a94252cc5b339522c28e7a4212165",
+                "shasum": ""
+            },
+            "require": {
+                "dhii/callback-abstract": "0.1-alpha2",
+                "dhii/container-helper-base": "0.1-alpha5",
+                "dhii/data-container-base": "0.1-alpha2",
+                "dhii/exception": "0.1-alpha4",
+                "dhii/factory-interface": "0.1-alpha1 | 0.1-alpha2",
+                "dhii/i18n-helper-base": "0.1-alpha1",
+                "dhii/invocable-base": "^0.1-alpha1",
+                "dhii/invocable-interface": "0.1-alpha1",
+                "dhii/normalization-helper-base": "0.1-alpha1 | 0.1-alpha2",
+                "php": "^5.4 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "psr/container": "^1.0",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Factory\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Base functionality for factories.",
+            "time": "2018-03-22T14:24:17+00:00"
         },
         {
             "name": "dhii/factory-interface",
@@ -382,6 +638,102 @@
             ],
             "description": "Interfaces for internationalization.",
             "time": "2017-03-15T16:01:39+00:00"
+        },
+        {
+            "name": "dhii/invocable-base",
+            "version": "v0.1-alpha1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/invocable-base.git",
+                "reference": "8512d260c37c077afc462cf7089190925c1d8825"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/invocable-base/zipball/8512d260c37c077afc462cf7089190925c1d8825",
+                "reference": "8512d260c37c077afc462cf7089190925c1d8825",
+                "shasum": ""
+            },
+            "require": {
+                "dhii/callback-abstract": "0.1-alpha2",
+                "dhii/exception": "0.1-alpha4",
+                "dhii/i18n-helper-base": "^0.1",
+                "dhii/invocable-interface": "^0.1",
+                "dhii/normalization-helper-base": "^0.1",
+                "php": "^5.4 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "^0.1",
+                "dhii/stringable-interface": "^0.1",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Invocation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Base functionality for invocation.",
+            "time": "2018-03-22T12:47:15+00:00"
+        },
+        {
+            "name": "dhii/invocable-interface",
+            "version": "v0.1-alpha1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dhii/invocable-interface.git",
+                "reference": "85f9fae9ae6bb53213c2a2354edf78bb364b705f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dhii/invocable-interface/zipball/85f9fae9ae6bb53213c2a2354edf78bb364b705f",
+                "reference": "85f9fae9ae6bb53213c2a2354edf78bb364b705f",
+                "shasum": ""
+            },
+            "require": {
+                "dhii/exception-interface": "^0.1 | ^0.2",
+                "php": "^5.3 | ^7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "<=0.3.2",
+                "dhii/php-cs-fixer-config": "dev-php-5.3",
+                "phpunit/phpunit": "^4.8",
+                "ptrofimov/xpmock": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dhii\\Invocation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dhii Team",
+                    "email": "development@dhii.co"
+                }
+            ],
+            "description": "Interface for objects that can be invoked.",
+            "time": "2018-02-12T16:56:45+00:00"
         },
         {
             "name": "dhii/machine-state-machine-interface",
@@ -605,6 +957,55 @@
             "time": "2017-10-11T13:29:39+00:00"
         },
         {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
             "name": "rebelcode/booking-abstract",
             "version": "dev-develop",
             "source": {
@@ -660,12 +1061,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RebelCode/booking-interface.git",
-                "reference": "b4753f291cdd52cdb7488c58fa2b6da465efa719"
+                "reference": "7f72d7eb29c3d29ed6a12f95db57972e7750092c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RebelCode/booking-interface/zipball/b4753f291cdd52cdb7488c58fa2b6da465efa719",
-                "reference": "b4753f291cdd52cdb7488c58fa2b6da465efa719",
+                "url": "https://api.github.com/repos/RebelCode/booking-interface/zipball/7f72d7eb29c3d29ed6a12f95db57972e7750092c",
+                "reference": "7f72d7eb29c3d29ed6a12f95db57972e7750092c",
                 "shasum": ""
             },
             "require": {
@@ -682,6 +1083,11 @@
                 "ptrofimov/xpmock": "^1.1"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "develop": "0.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "RebelCode\\Bookings\\": "src"
@@ -698,23 +1104,24 @@
                 }
             ],
             "description": "Interfaces for bookings.",
-            "time": "2018-03-13T12:47:17+00:00"
+            "time": "2018-03-21T14:36:35+00:00"
         },
         {
             "name": "rebelcode/booking-transitioner-interface",
-            "version": "dev-develop",
+            "version": "dev-task/add-factory-interface",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RebelCode/booking-transitioner-interface.git",
-                "reference": "c4fb5204deda3b2d8ebd8999f3610ba6e1e93d2c"
+                "reference": "d6e78f62710bb112f323c4854d6fe1cae2562b66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RebelCode/booking-transitioner-interface/zipball/c4fb5204deda3b2d8ebd8999f3610ba6e1e93d2c",
-                "reference": "c4fb5204deda3b2d8ebd8999f3610ba6e1e93d2c",
+                "url": "https://api.github.com/repos/RebelCode/booking-transitioner-interface/zipball/d6e78f62710bb112f323c4854d6fe1cae2562b66",
+                "reference": "d6e78f62710bb112f323c4854d6fe1cae2562b66",
                 "shasum": ""
             },
             "require": {
+                "dhii/factory-interface": "0.1-alpha1 | 0.1-alpha2",
                 "php": "^5.3 | ^7.0"
             },
             "require-dev": {
@@ -743,7 +1150,7 @@
                 }
             ],
             "description": "Interfaces for objects that can transition bookings.",
-            "time": "2017-10-16T15:39:39+00:00"
+            "time": "2018-03-21T10:56:10+00:00"
         }
     ],
     "packages-dev": [
@@ -1596,55 +2003,6 @@
                 "xunit"
             ],
             "time": "2015-10-02T06:51:40+00:00"
-        },
-        {
-            "name": "psr/container",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Container\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
-                "container-interop",
-                "psr"
-            ],
-            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/log",
