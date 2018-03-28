@@ -80,14 +80,14 @@ class FactoryStateMachineTransitionerFactory extends AbstractBaseCallbackFactory
      *
      * @since [*next-version*]
      */
-    const K_CFG_STATE_MACHINE = 'state-machine';
+    const K_CFG_STATE_MACHINE = 'state_machine';
 
     /**
      * The key in the config for the booking factory.
      *
      * @since [*next-version*]
      */
-    const K_CFG_BOOKING_FACTORY = 'booking-factory';
+    const K_CFG_BOOKING_FACTORY = 'booking_factory';
 
     /**
      * {@inheritdoc}
