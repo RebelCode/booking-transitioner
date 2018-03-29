@@ -76,11 +76,11 @@ class FactoryStateMachineTransitionerFactory extends AbstractBaseCallbackFactory
     use StringTranslatingTrait;
 
     /**
-     * The key in the config for the state machine.
+     * The key in the config for the state machine callback.
      *
      * @since [*next-version*]
      */
-    const K_CFG_STATE_MACHINE = 'state_machine';
+    const K_CFG_STATE_MACHINE_CALLBACK = 'state_machine_callback';
 
     /**
      * The key in the config for the booking factory.
@@ -107,10 +107,10 @@ class FactoryStateMachineTransitionerFactory extends AbstractBaseCallbackFactory
     protected function _getFactoryCallback($config = null)
     {
         return function () use ($config) {
-            $stateMachine = $this->_containerGet($config, static::K_CFG_STATE_MACHINE);
+            $stateMachineCb = $this->_containerGet($config, static::K_CFG_STATE_MACHINE_CALLBACK);
             $bookingFactory = $this->_containerGet($config, static::K_CFG_BOOKING_FACTORY);
 
-            return new FactoryStateMachineTransitioner($stateMachine, $bookingFactory);
+            return new FactoryStateMachineTransitioner($stateMachineCb, $bookingFactory);
         };
     }
 }

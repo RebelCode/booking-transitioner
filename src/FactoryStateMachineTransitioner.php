@@ -3,9 +3,15 @@
 namespace RebelCode\Bookings;
 
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
+use Dhii\Exception\CreateOutOfRangeExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
+use Dhii\Invocation\CallbackAwareTrait;
+use Dhii\Invocation\CreateInvocationExceptionCapableTrait;
+use Dhii\Invocation\InvokeCallableCapableTrait;
+use Dhii\Invocation\InvokeCallbackCapableTrait;
 use Dhii\State\ReadableStateMachineInterface;
-use Dhii\State\StateMachineAwareTrait;
+use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
+use Dhii\Util\Normalization\NormalizeIterableCapableTrait;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Exception as RootException;
 use RebelCode\Bookings\Exception\CouldNotTransitionException;
@@ -25,16 +31,6 @@ use RebelCode\Bookings\Factory\BookingFactoryAwareTrait;
 class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransitioner implements TransitionerInterface
 {
     /*
-     * Provides awareness of a state machine.
-     *
-     * @since [*next-version*]
-     */
-    use StateMachineAwareTrait {
-        _getStateMachine as _getStateMachineInstance;
-        _setStateMachine as _setStateMachineInstance;
-    }
-
-    /*
      * Provides awareness of a booking factory.
      *
      * @since [*next-version*]
@@ -45,11 +41,60 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
     }
 
     /*
+     * Provides awareness of a callback.
+     *
+     * @since [*next-version*]
+     */
+    use CallbackAwareTrait;
+
+    /*
+     * Provides functionality for invoking callbacks.
+     *
+     * @since [*next-version*]
+     */
+    use InvokeCallbackCapableTrait;
+
+    /*
+     * Provides functionality for invoking callable things.
+     *
+     * @since [*next-version*]
+     */
+    use InvokeCallableCapableTrait;
+
+    /*
+     * Provides iterable normalization functionality.
+     *
+     * @since [*next-version*]
+     */
+    use NormalizeIterableCapableTrait;
+
+    /*
+     * Provides array normalization functionality.
+     *
+     * @since [*next-version*]
+     */
+    use NormalizeArrayCapableTrait;
+
+    /*
+     * Provides functionality for creating invocation exceptions.
+     *
+     * @since [*next-version*]
+     */
+    use CreateInvocationExceptionCapableTrait;
+
+    /*
      * Provides functionality for creating exceptions for invalid arguments.
      *
      * @since [*next-version*]
      */
     use CreateInvalidArgumentExceptionCapableTrait;
+
+    /*
+     * Provides functionality for creating out-of-range exceptions.
+     *
+     * @since [*next-version*]
+     */
+    use CreateOutOfRangeExceptionCapableTrait;
 
     /*
      * Provides string i18n capabilities.
@@ -63,12 +108,15 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
      *
      * @since [*next-version*]
      *
-     * @param ReadableStateMachineInterface $machine        The state machine.
-     * @param BookingFactoryInterface|null  $bookingFactory The factory callable for creating bookings.
+     * @param callable                     $stateMachineProvider A callback which, given a booking and a transitioner
+     *                                                           returns a {@see ReadableStateMachineInterface}.
+     * @param BookingFactoryInterface|null $bookingFactory       The factory for creating bookings.
      */
-    public function __construct(ReadableStateMachineInterface $machine, BookingFactoryInterface $bookingFactory = null)
-    {
-        $this->_setStateMachine($machine);
+    public function __construct(
+        $stateMachineProvider,
+        BookingFactoryInterface $bookingFactory = null
+    ) {
+        $this->_setCallback($stateMachineProvider);
         $this->_setBookingFactoryInstance($bookingFactory);
     }
 
@@ -99,28 +147,7 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
      */
     protected function _getStateMachine(BookingInterface $booking, $transition)
     {
-        return $this->_getStateMachineInstance();
-    }
-
-    /**
-     * Sets the state machine for this instance.
-     *
-     * @since [*next-version*]
-     *
-     * @param ReadableStateMachineInterface|null $stateMachine The state machine instance or null
-     */
-    protected function _setStateMachine($stateMachine)
-    {
-        if ($stateMachine !== null && !($stateMachine instanceof ReadableStateMachineInterface)) {
-            throw $this->_createInvalidArgumentException(
-                $this->__('Argument is not a readable state machine instance'),
-                null,
-                null,
-                $stateMachine
-            );
-        }
-
-        $this->_setStateMachineInstance($stateMachine);
+        return $this->_invokeCallback([$booking, $transition]);
     }
 
     /**

@@ -7,6 +7,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use RebelCode\Bookings\BookingFactoryInterface;
 use RebelCode\Bookings\BookingInterface;
 use ReflectionClass;
+use ReflectionException;
 use Xpmock\TestCase;
 
 /**
@@ -126,25 +127,25 @@ class FactoryStateMachineTransitionerTest extends TestCase
      * Tests the constructor to ensure that the appropriate setters are invoked for the given arguments.
      *
      * @since [*next-version*]
+     *
+     * @throws ReflectionException
      */
     public function testConstructor()
     {
-        $bkFactory  = $this->createBookingFactory();
-        $readableSm = $this->createReadableStateMachine();
+        $bkFactory = $this->createBookingFactory();
+        $machineCb = function() {
+            return $this->createReadableStateMachine();
+        };
 
-        $subject = $this->createInstance(['_setStateMachine', '_setBookingFactoryInstance']);
-
-        $subject->expects($this->once())
-                ->method('_setStateMachine')
-                ->with($readableSm);
+        $subject = $this->createInstance(['_setBookingFactoryInstance']);
 
         $subject->expects($this->once())
                 ->method('_setBookingFactoryInstance')
                 ->with($bkFactory);
 
-        $reflect     = new ReflectionClass($subject);
+        $reflect = new ReflectionClass($subject);
         $constructor = $reflect->getConstructor();
-        $constructor->invoke($subject, $readableSm, $bkFactory);
+        $constructor->invoke($subject, $machineCb, $bkFactory);
     }
 
     /**
@@ -154,9 +155,9 @@ class FactoryStateMachineTransitionerTest extends TestCase
      */
     public function testNormalizeTransition()
     {
-        $subject    = $this->createInstance();
-        $reflect    = $this->reflect($subject);
-        $booking    = $this->createBooking();
+        $subject = $this->createInstance();
+        $reflect = $this->reflect($subject);
+        $booking = $this->createBooking();
         $transition = uniqid('transition-');
 
         $this->assertEquals(
@@ -173,8 +174,8 @@ class FactoryStateMachineTransitionerTest extends TestCase
      */
     public function testTransition()
     {
-        $subject    = $this->createInstance(['_transition']);
-        $booking    = $this->createBooking();
+        $subject = $this->createInstance(['_transition']);
+        $booking = $this->createBooking();
         $newBooking = $this->createBooking();
         $transition = uniqid('transition-');
 
@@ -196,38 +197,14 @@ class FactoryStateMachineTransitionerTest extends TestCase
      *
      * @since [*next-version*]
      */
-    public function testGetSetStateMachine()
-    {
-        $subject = $this->createInstance();
-        $reflect = $this->reflect($subject);
-
-        $readableSm = $this->createReadableStateMachine();
-        $booking    = $this->createBooking();
-        $transition = uniqid('transition-');
-
-        $reflect->_setStateMachineInstance($readableSm);
-
-        $this->assertSame(
-            $readableSm,
-            $reflect->_getStateMachine($booking, $transition),
-            'Set and retrieved state machines are not the same.'
-        );
-    }
-
-    /**
-     * Tests the state machine getter and setter method to assert that the state machine returned for use
-     * in the transition algorithm is equivalent to the state machine set through the setter.
-     *
-     * @since [*next-version*]
-     */
     public function testGetSetBookingFactory()
     {
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $factory    = $this->createBookingFactory();
+        $factory = $this->createBookingFactory();
         $readableSm = $this->createReadableStateMachine();
-        $booking    = $this->createBooking();
+        $booking = $this->createBooking();
         $transition = uniqid('transition-');
 
         $reflect->_setBookingFactoryInstance($factory);
@@ -249,8 +226,8 @@ class FactoryStateMachineTransitionerTest extends TestCase
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $message  = uniqid('message-');
-        $code     = rand();
+        $message = uniqid('message-');
+        $code = rand();
         $previous = new \Exception();
 
         $exception = $reflect->_createTransitionerException($message, $code, $previous);
@@ -277,10 +254,10 @@ class FactoryStateMachineTransitionerTest extends TestCase
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $message    = uniqid('message-');
-        $code       = rand();
-        $previous   = new \Exception();
-        $booking    = $this->createBooking();
+        $message = uniqid('message-');
+        $code = rand();
+        $previous = new \Exception();
+        $booking = $this->createBooking();
         $transition = uniqid('transition-');
 
         $exception = $reflect->_createCouldNotTransitionException($message, $code, $previous, $booking, $transition);
