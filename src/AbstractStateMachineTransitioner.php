@@ -44,7 +44,7 @@ abstract class AbstractStateMachineTransitioner
             return $newBooking;
         } catch (SmCouldNotTransitionExceptionInterface $smtException) {
             throw $this->_createCouldNotTransitionException(
-                $this->__('Failed to transition booking'),
+                $this->__('Failed to transition booking with "%1$s" transition', [$transition]),
                 null,
                 $smtException,
                 $booking
