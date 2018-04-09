@@ -87,7 +87,7 @@ class FactoryStateMachineTransitionerFactoryTest extends TestCase
     {
         $subject = new TestSubject();
 
-        $this->setExpectedException('Dhii\Factory\Exception\CouldNotMakeExceptionInterface');
+        $this->setExpectedException('Dhii\Factory\Exception\FactoryExceptionInterface');
 
         $config = [
             TestSubject::K_CFG_BOOKING_FACTORY => $this->createBookingFactory(),
@@ -99,7 +99,7 @@ class FactoryStateMachineTransitionerFactoryTest extends TestCase
     {
         $subject = new TestSubject();
 
-        $this->setExpectedException('Dhii\Factory\Exception\CouldNotMakeExceptionInterface');
+        $this->setExpectedException('Dhii\Factory\Exception\FactoryExceptionInterface');
 
         $config = [
             TestSubject::K_CFG_STATE_MACHINE_CALLBACK => function() {

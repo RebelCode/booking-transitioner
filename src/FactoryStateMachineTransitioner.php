@@ -7,8 +7,6 @@ use Dhii\Exception\CreateOutOfRangeExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Invocation\CallbackAwareTrait;
 use Dhii\Invocation\CreateInvocationExceptionCapableTrait;
-use Dhii\Invocation\InvokeCallableCapableTrait;
-use Dhii\Invocation\InvokeCallbackCapableTrait;
 use Dhii\State\ReadableStateMachineInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Dhii\Util\Normalization\NormalizeIterableCapableTrait;
@@ -46,20 +44,6 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
      * @since [*next-version*]
      */
     use CallbackAwareTrait;
-
-    /*
-     * Provides functionality for invoking callbacks.
-     *
-     * @since [*next-version*]
-     */
-    use InvokeCallbackCapableTrait;
-
-    /*
-     * Provides functionality for invoking callable things.
-     *
-     * @since [*next-version*]
-     */
-    use InvokeCallableCapableTrait;
 
     /*
      * Provides iterable normalization functionality.
@@ -147,7 +131,7 @@ class FactoryStateMachineTransitioner extends AbstractFactoryStateMachineTransit
      */
     protected function _getStateMachine(BookingInterface $booking, $transition)
     {
-        return $this->_invokeCallback([$booking, $transition]);
+        return call_user_func_array($this->_getCallback(), [$booking, $transition]);
     }
 
     /**

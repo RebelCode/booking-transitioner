@@ -18,7 +18,7 @@
         "rebelcode/booking-transitioner-interface": "dev-task/add-factory-interface",
         "dhii/machine-state-machine-interface": "dev-develop",
         "dhii/state-machine-abstract": "dev-develop",
-        "dhii/factory-base": "^0.1-alpha1",
+        "dhii/factory-base": "^0.1-alpha3",
         "dhii/exception-helper-base": "0.1-alpha1",
         "dhii/i18n-helper-base": "^0.1",
         "dhii/stringable-interface": "^0.1"
