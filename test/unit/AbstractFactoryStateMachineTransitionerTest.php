@@ -4,6 +4,7 @@ namespace RebelCode\Bookings\Transitioner\UnitTest;
 
 use Dhii\State\ReadableStateMachineInterface;
 use Exception;
+use InvalidArgumentException;
 use PHPUnit_Framework_MockObject_MockObject;
 use RebelCode\Bookings\BookingFactoryInterface;
 use RebelCode\Bookings\BookingInterface;
@@ -40,6 +41,7 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
                              [
                                  '_normalizeTransition',
                                  '_getStateMachine',
+                                 '_normalizeIterable',
                                  '_createTransitionerException',
                                  '_createCouldNotTransitionException',
                                  '__',
@@ -160,12 +162,59 @@ class AbstractFactoryStateMachineTransitionerTest extends TestCase
         $transition = uniqid('transition-');
         $machine    = $this->createReadableStateMachine($state);
 
+        $subject->expects($this->once())
+                ->method('_normalizeIterable')
+                ->with($booking)
+                ->willThrowException(new InvalidArgumentException());
+
         $args     = $reflect->_getBookingFactoryArgs($booking, $transition, $machine);
         $expected = [
             'start'    => $start,
             'end'      => $end,
             'duration' => $duration,
             'status'   => $state,
+        ];
+
+        $this->assertEquals($expected, $args, 'Expected and retrieved args do not match');
+    }
+
+    /**
+     * Tests the factory args getter method, when the booking is iterable and has additional data.
+     *
+     * @since [*next-version*]
+     */
+    public function testGetFactoryArgsIterableBooking()
+    {
+        $subject = $this->createInstance();
+        $reflect = $this->reflect($subject);
+
+        $start = rand(0, 10000);
+        $end = rand(0, 10000);
+        $duration = rand(0, 10000);
+        $state = uniqid('state-');
+
+        $booking    = $this->createBooking($start, $end, $duration);
+        $transition = uniqid('transition-');
+        $machine    = $this->createReadableStateMachine($state);
+
+        $moreData = [
+            $key1 = uniqid('key-') => $val1 = uniqid('val-'),
+            $key2 = uniqid('key-') => $val2 = uniqid('val-'),
+        ];
+
+        $subject->expects($this->once())
+                ->method('_normalizeIterable')
+                ->with($booking)
+                ->willReturn($moreData);
+
+        $args     = $reflect->_getBookingFactoryArgs($booking, $transition, $machine);
+        $expected = [
+            'start'    => $start,
+            'end'      => $end,
+            'duration' => $duration,
+            'status'   => $state,
+            $key1      => $val1,
+            $key2      => $val2,
         ];
 
         $this->assertEquals($expected, $args, 'Expected and retrieved args do not match');

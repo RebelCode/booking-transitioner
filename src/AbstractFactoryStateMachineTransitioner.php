@@ -5,8 +5,10 @@ namespace RebelCode\Bookings;
 use ArrayAccess;
 use Dhii\State\ReadableStateMachineInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use stdClass;
+use Traversable;
 
 /**
  * An abstract implementation of a booking transitioner that uses a state machine for transitions and a factory for
@@ -49,12 +51,28 @@ abstract class AbstractFactoryStateMachineTransitioner extends AbstractStateMach
         $transition,
         ReadableStateMachineInterface $stateMachine
     ) {
-        return [
+        $factoryArgs = [
             'start'    => $booking->getStart(),
             'end'      => $booking->getEnd(),
             'duration' => $booking->getDuration(),
             'status'   => $stateMachine->getState(),
         ];
+
+        try {
+            $booking = $this->_normalizeIterable($booking);
+
+            foreach ($booking as $_key => $_value) {
+                if (array_key_exists($_key, $factoryArgs)) {
+                    continue;
+                }
+
+                $factoryArgs[$_key] = $_value;
+            }
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            // Do nothing
+        }
+
+        return $factoryArgs;
     }
 
     /**
@@ -73,4 +91,19 @@ abstract class AbstractFactoryStateMachineTransitioner extends AbstractStateMach
         $transition,
         ReadableStateMachineInterface $stateMachine
     );
+
+    /**
+     * Normalizes an iterable.
+     *
+     * Makes sure that the return value can be iterated over.
+     *
+     * @since [*next-version*]
+     *
+     * @param mixed $iterable The iterable to normalize.
+     *
+     * @throws InvalidArgumentException If the iterable could not be normalized.
+     *
+     * @return array|Traversable|stdClass The normalized iterable.
+     */
+    abstract protected function _normalizeIterable($iterable);
 }
