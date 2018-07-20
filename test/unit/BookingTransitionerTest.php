@@ -1,28 +1,31 @@
 <?php
 
-namespace RebelCode\Bookings\Transitioner\UnitTest;
+namespace RebelCode\Bookings\UnitTest;
 
+use Dhii\Collection\MapInterface;
+use Dhii\Data\StateAwareFactoryInterface;
+use Dhii\Data\StateAwareInterface;
 use Dhii\State\ReadableStateMachineInterface;
-use PHPUnit_Framework_MockObject_MockObject;
-use RebelCode\Bookings\BookingFactoryInterface;
-use RebelCode\Bookings\BookingInterface;
-use ReflectionClass;
+use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use RebelCode\Bookings\BookingTransitioner;
 use ReflectionException;
+use stdClass;
 use Xpmock\TestCase;
 
 /**
- * Tests {@see RebelCode\Bookings\Transitioner\FactoryStateMachineTransitioner}.
+ * Tests {@see RebelCode\Bookings\BookingTransitioner}.
  *
  * @since [*next-version*]
  */
-class FactoryStateMachineTransitionerTest extends TestCase
+class BookingTransitionerTest extends TestCase
 {
     /**
      * The class name of the test subject.
      *
      * @since [*next-version*]
      */
-    const TEST_SUBJECT_CLASSNAME = 'RebelCode\Bookings\FactoryStateMachineTransitioner';
+    const TEST_SUBJECT_CLASSNAME = 'RebelCode\Bookings\BookingTransitioner';
 
     /**
      * Creates a new instance of the test subject.
@@ -31,7 +34,7 @@ class FactoryStateMachineTransitionerTest extends TestCase
      *
      * @param array $methods
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     public function createInstance(array $methods = [])
     {
@@ -43,56 +46,99 @@ class FactoryStateMachineTransitionerTest extends TestCase
     }
 
     /**
+     * Creates a mock that both extends a class and implements interfaces.
+     *
+     * This is particularly useful for cases where the mock is based on an
+     * internal class, such as in the case with exceptions. Helps to avoid
+     * writing hard-coded stubs.
+     *
+     * @since [*next-version*]
+     *
+     * @param string   $className      Name of the class for the mock to extend.
+     * @param string[] $interfaceNames Names of the interfaces for the mock to implement.
+     *
+     * @return MockBuilder The builder for a mock of an object that extends and implements
+     *                     the specified class and interfaces.
+     */
+    public function mockClassAndInterfaces($className, $interfaceNames = [])
+    {
+        $paddingClassName = uniqid($className);
+        $definition       = vsprintf('abstract class %1$s extends %2$s implements %3$s {}', [
+            $paddingClassName,
+            $className,
+            implode(', ', $interfaceNames),
+        ]);
+        eval($definition);
+
+        return $this->getMockBuilder($paddingClassName);
+    }
+
+    /**
+     * Creates a mock map instance.
+     *
+     * @since [*next-version*]
+     *
+     * @param array|stdClass $data The data for the map.
+     *
+     * @return MockObject|MapInterface The created map instance.
+     */
+    public function createMap($data)
+    {
+        $map = $this->mockClassAndInterfaces('ArrayObject', ['Dhii\Collection\MapInterface'])
+                    ->setMethods(['get', 'has'])
+                    ->enableOriginalConstructor()
+                    ->setConstructorArgs([$data])
+                    ->getMockForAbstractClass();
+
+        return $map;
+    }
+
+    /**
      * Creates a readable state machine instance.
      *
      * @since [*next-version*]
      *
-     * @return ReadableStateMachineInterface
+     * @return ReadableStateMachineInterface|MockObject
      */
     public function createReadableStateMachine()
     {
-        $mock = $this->mock('Dhii\State\ReadableStateMachineInterface')
-                     ->transition()
-                     ->canTransition()
-                     ->getState();
+        $mock = $this->getMockBuilder('Dhii\State\ReadableStateMachineInterface')
+                     ->setMethods(['transition', 'canTransition', 'getState'])
+                     ->getMockForAbstractClass();
 
-        return $mock->new();
+        return $mock;
     }
 
     /**
-     * Creates a mock booking factory instance for testing purposes.
+     * Creates a mock state-aware factory instance for testing purposes.
      *
      * @since [*next-version*]
      *
-     * @param BookingInterface|null $booking The booking to be returned by the factory's `make()` method.
-     *
-     * @return BookingFactoryInterface
+     * @return StateAwareFactoryInterface|MockObject
      */
-    public function createBookingFactory($booking = null)
+    public function createStateAwareFactory()
     {
-        $mock = $this->mock('RebelCode\Bookings\BookingFactoryInterface')
-                     ->make($booking);
+        $mock = $this->getMockBuilder('Dhii\Data\StateAwareFactoryInterface')
+                     ->setMethods(['make'])
+                     ->getMockForAbstractClass();
 
-        return $mock->new();
+        return $mock;
     }
 
     /**
-     * Creates a mock booking instance for testing purposes.
+     * Creates a mock state-aware instance for testing purposes.
      *
      * @since [*next-version*]
      *
-     * @return BookingInterface
+     * @return StateAwareInterface|MockObject
      */
-    public function createBooking()
+    public function createStateAware()
     {
-        $mock = $this->mock('RebelCode\Bookings\BookingInterface')
-                     ->getId()
-                     ->getStart()
-                     ->getEnd()
-                     ->getDuration()
-                     ->getStatus();
+        $mock = $this->getMockBuilder('Dhii\Data\StateAwareInterface')
+                     ->setMethods(['getState'])
+                     ->getMockForAbstractClass();
 
-        return $mock->new();
+        return $mock;
     }
 
     /**
@@ -111,15 +157,9 @@ class FactoryStateMachineTransitionerTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'RebelCode\Bookings\TransitionerInterface',
+            'Dhii\Data\TransitionerInterface',
             $subject,
             'Test subject does not implement expected interface.'
-        );
-
-        $this->assertInstanceOf(
-            'RebelCode\Bookings\AbstractFactoryStateMachineTransitioner',
-            $subject,
-            'Test subject does not extend expected parent class.'
         );
     }
 
@@ -132,20 +172,12 @@ class FactoryStateMachineTransitionerTest extends TestCase
      */
     public function testConstructor()
     {
-        $bkFactory = $this->createBookingFactory();
-        $machineCb = function() {
-            return $this->createReadableStateMachine();
-        };
+        $factory = $this->createStateAwareFactory();
+        $machine = $this->createReadableStateMachine();
+        $subject = new BookingTransitioner($factory, $machine);
+        $reflect = $this->reflect($subject);
 
-        $subject = $this->createInstance(['_setBookingFactoryInstance']);
-
-        $subject->expects($this->once())
-                ->method('_setBookingFactoryInstance')
-                ->with($bkFactory);
-
-        $reflect = new ReflectionClass($subject);
-        $constructor = $reflect->getConstructor();
-        $constructor->invoke($subject, $machineCb, $bkFactory);
+        $this->assertSame($factory, $reflect->_getStateAwareFactory(), 'Set and retrieved factories are not the same.');
     }
 
     /**
@@ -155,9 +187,9 @@ class FactoryStateMachineTransitionerTest extends TestCase
      */
     public function testNormalizeTransition()
     {
-        $subject = $this->createInstance();
-        $reflect = $this->reflect($subject);
-        $booking = $this->createBooking();
+        $subject    = $this->createInstance();
+        $reflect    = $this->reflect($subject);
+        $booking    = $this->createStateAware();
         $transition = uniqid('transition-');
 
         $this->assertEquals(
@@ -174,46 +206,47 @@ class FactoryStateMachineTransitionerTest extends TestCase
      */
     public function testTransition()
     {
-        $subject = $this->createInstance(['_transition']);
-        $booking = $this->createBooking();
-        $newBooking = $this->createBooking();
+        // Transition arguments
+        $stateAware = $this->createStateAware();
         $transition = uniqid('transition-');
 
-        $subject->expects($this->once())
-                ->method('_transition')
-                ->with($booking, $transition)
-                ->willReturn($newBooking);
+        // Set up map for state-aware instance
+        $stateData = ['a' => 1, 'b' => 2];
+        $stateMap  = $this->createMap($stateData);
+        $stateAware->method('getState')->willReturn($stateMap);
 
-        $this->assertSame(
-            $newBooking,
-            $subject->transition($booking, $transition),
-            'Returned booking is not identical to booking from transition result.'
-        );
-    }
+        // Set up old and new state machines for before and after transitioning
+        $machine    = $this->createReadableStateMachine();
+        $newMachine = $this->createReadableStateMachine();
+        $newState   = uniqid('new-state-');
+        $newMachine->expects($this->once())
+                   ->method('getState')
+                   ->willReturn($newState);
+        $machine->expects($this->once())
+                ->method('transition')
+                ->with($transition)
+                ->willReturn($newMachine);
 
-    /**
-     * Tests the state machine getter and setter method to assert that the state machine returned for use
-     * in the transition algorithm is equivalent to the state machine set through the setter.
-     *
-     * @since [*next-version*]
-     */
-    public function testGetSetBookingFactory()
-    {
-        $subject = $this->createInstance();
-        $reflect = $this->reflect($subject);
+        // Set up new state-aware instance
+        $newStateData  = ['a' => 1, 'b' => 2, 'status' => $newState];
+        $newStateMap   = $this->createMap($stateData);
+        $newStateAware = $this->createStateAware();
+        $newStateAware->method('getState')->willReturn($newStateMap);
 
-        $factory = $this->createBookingFactory();
-        $readableSm = $this->createReadableStateMachine();
-        $booking = $this->createBooking();
-        $transition = uniqid('transition-');
+        // Set up state-aware factory to create new instance
+        $factory = $this->createStateAwareFactory();
+        $factory->expects($this->atLeastOnce())
+                ->method('make')
+                ->with([StateAwareFactoryInterface::K_DATA => $newStateData])
+                ->willReturn($newStateAware);
 
-        $reflect->_setBookingFactoryInstance($factory);
+        // Set up test subject
+        $subject = new BookingTransitioner($factory, $machine);
 
-        $this->assertSame(
-            $factory,
-            $reflect->_getBookingFactory($booking, $transition, $readableSm),
-            'Set and retrieved booking factories are not the same.'
-        );
+        // Run transition and expect returned instance to be the factory-created instance
+        $result = $subject->transition($stateAware, $transition);
+
+        $this->assertSame($newStateAware, $result, 'Incorrect state-aware instance returned.');
     }
 
     /**
@@ -226,14 +259,14 @@ class FactoryStateMachineTransitionerTest extends TestCase
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $message = uniqid('message-');
-        $code = rand();
+        $message  = uniqid('message-');
+        $code     = rand();
         $previous = new \Exception();
 
         $exception = $reflect->_createTransitionerException($message, $code, $previous);
 
         $this->assertInstanceOf(
-            'RebelCode\Bookings\Exception\TransitionerExceptionInterface',
+            'Dhii\Data\Exception\TransitionerExceptionInterface',
             $exception,
             'Created exception does not implement expected interface.'
         );
@@ -254,16 +287,23 @@ class FactoryStateMachineTransitionerTest extends TestCase
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $message = uniqid('message-');
-        $code = rand();
-        $previous = new \Exception();
-        $booking = $this->createBooking();
+        $message    = uniqid('message-');
+        $code       = rand();
+        $previous   = new \Exception();
+        $booking    = $this->createStateAware();
         $transition = uniqid('transition-');
 
-        $exception = $reflect->_createCouldNotTransitionException($message, $code, $previous, $booking, $transition);
+        $exception = $reflect->_createCouldNotTransitionException(
+            $message,
+            $code,
+            $previous,
+            null, // transitioner
+            $booking,
+            $transition
+        );
 
         $this->assertInstanceOf(
-            'RebelCode\Bookings\Exception\CouldNotTransitionExceptionInterface',
+            'Dhii\Data\Exception\CouldNotTransitionExceptionInterface',
             $exception,
             'Created exception does not implement expected interface.'
         );
@@ -272,7 +312,7 @@ class FactoryStateMachineTransitionerTest extends TestCase
         $this->assertEquals($code, $exception->getCode(), 'Exception code is incorrect.');
         $this->assertSame($previous, $exception->getPrevious(), 'Inner exception instance is incorrect.');
         $this->assertSame($subject, $exception->getTransitioner(), 'Exception transitioner is incorrect.');
-        $this->assertSame($booking, $exception->getBooking(), 'Exception booking is incorrect.');
+        $this->assertSame($booking, $exception->getSubject(), 'Exception subject is incorrect.');
         $this->assertEquals($transition, $exception->getTransition(), 'Exception transition is incorrect.');
     }
 }
