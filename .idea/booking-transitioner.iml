@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/args-list-validation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/callback-abstract" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/collections-interface" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/container-helper-base" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/cqrs-resource-model-interface" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/data-container-abstract" />
@@ -16,6 +17,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/data-container-interface" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/data-identifiable-interface" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/data-key-value-aware-interface" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/data-state-abstract" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/data-state-base" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/data-state-interface" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/exception" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/exception-interface" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dhii/factory-base" />
@@ -49,9 +53,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/container" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ptrofimov/xpmock" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/rebelcode/booking-abstract" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/rebelcode/booking-interface" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/rebelcode/booking-transitioner-interface" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/satooshi/php-coveralls" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/comparator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/diff" />
@@ -66,6 +68,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/filesystem" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/process" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/stopwatch" />
