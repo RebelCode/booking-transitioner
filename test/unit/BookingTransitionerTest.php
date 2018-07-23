@@ -3,6 +3,8 @@
 namespace RebelCode\Bookings\UnitTest;
 
 use Dhii\Collection\MapInterface;
+use Dhii\Data\Exception\CouldNotTransitionExceptionInterface;
+use Dhii\Data\Exception\TransitionerExceptionInterface;
 use Dhii\Data\StateAwareFactoryInterface;
 use Dhii\Data\StateAwareInterface;
 use Dhii\State\ReadableStateMachineInterface;
@@ -263,7 +265,11 @@ class BookingTransitionerTest extends TestCase
         $code     = rand();
         $previous = new \Exception();
 
-        $exception = $reflect->_createTransitionerException($message, $code, $previous);
+        try {
+            $reflect->_throwTransitionerException($message, $code, $previous);
+            $this->fail('Expected exception was not thrown.');
+        } catch (TransitionerExceptionInterface $exception) {
+        }
 
         $this->assertInstanceOf(
             'Dhii\Data\Exception\TransitionerExceptionInterface',
@@ -293,14 +299,17 @@ class BookingTransitionerTest extends TestCase
         $booking    = $this->createStateAware();
         $transition = uniqid('transition-');
 
-        $exception = $reflect->_createCouldNotTransitionException(
-            $message,
-            $code,
-            $previous,
-            null, // transitioner
-            $booking,
-            $transition
-        );
+        try {
+            $reflect->_throwCouldNotTransitionException(
+                $message,
+                $code,
+                $previous,
+                $booking,
+                $transition
+            );
+            $this->fail('Expected exception was not thrown.');
+        } catch (CouldNotTransitionExceptionInterface $exception) {
+        }
 
         $this->assertInstanceOf(
             'Dhii\Data\Exception\CouldNotTransitionExceptionInterface',

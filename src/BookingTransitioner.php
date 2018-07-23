@@ -23,32 +23,16 @@ use Exception as RootException;
 class BookingTransitioner implements TransitionerInterface
 {
     /* @since [*next-version*] */
-    use TransitionCapableStateMachineTrait, StateMachineAwareTrait {
-        // Use `_getStateMachine($subject, $transition)` from `TransitionCapableStateMachineTrait`, instead of the
-        // normal parameter-less getter from `StateMachineAwareTrait()`.
-        TransitionCapableStateMachineTrait::_getStateMachine insteadof StateMachineAwareTrait;
-
-        // Aliases to allow this class to implement the below methods while also being able to call the original
-        // implementations defined in the `StateMachineAwareTrait` trait.
-        StateMachineAwareTrait::_getStateMachine as _getInternalStateMachine;
-        StateMachineAwareTrait::_setStateMachine as _setInternalStateMachine;
-    }
+    use TransitionCapableStateMachineTrait;
 
     /* @since [*next-version*] */
-    use CreateTransitionerExceptionCapableTrait {
-        // Alias to allow this class to override the method and also call the original implementation.
-        // Trait name prefix required to disambiguate from the same method in `TransitionCapableStateMachineTrait`.
-        CreateTransitionerExceptionCapableTrait::_createTransitionerException as
-        _createRealTransitionException;
-    }
+    use StateMachineAwareTrait;
 
     /* @since [*next-version*] */
-    use CreateCouldNotTransitionExceptionCapableTrait {
-        // Alias to allow this class to override the method and also call the original implementation.
-        // Trait name prefix required to disambiguate from the same method in `TransitionCapableStateMachineTrait`.
-        CreateCouldNotTransitionExceptionCapableTrait::_createCouldNotTransitionException as
-        _createRealCouldNotTransitionException;
-    }
+    use CreateTransitionerExceptionCapableTrait;
+
+    /* @since [*next-version*] */
+    use CreateCouldNotTransitionExceptionCapableTrait;
 
     /* @since [*next-version*] */
     use CreateInvalidArgumentExceptionCapableTrait;
@@ -76,7 +60,7 @@ class BookingTransitioner implements TransitionerInterface
     public function __construct(StateAwareFactoryInterface $stateAwareFactory, StateMachineInterface $stateMachine)
     {
         $this->_setStateAwareFactory($stateAwareFactory);
-        $this->_setInternalStateMachine($stateMachine);
+        $this->_setStateMachine($stateMachine);
     }
 
     /**
@@ -128,9 +112,9 @@ class BookingTransitioner implements TransitionerInterface
      *
      * @since [*next-version*]
      */
-    protected function _getStateMachine(StateAwareInterface $subject, $transition)
+    protected function _getStateMachineForTransition(StateAwareInterface $subject, $transition)
     {
-        return $this->_getInternalStateMachine();
+        return $this->_getStateMachine();
     }
 
     /**
@@ -161,17 +145,16 @@ class BookingTransitioner implements TransitionerInterface
      *
      * @since [*next-version*]
      */
-    protected function _createTransitionerException(
+    protected function _throwTransitionerException(
         $message = null,
         $code = null,
-        RootException $previous = null,
-        $transitioner = null
+        RootException $previous = null
     ) {
-        return $this->_createRealTransitionException(
+        throw $this->_createTransitionerException(
             $message,
             $code,
             $previous,
-            $transitioner === null ? $this : $transitioner
+            $this
         );
     }
 
@@ -182,18 +165,17 @@ class BookingTransitioner implements TransitionerInterface
      *
      * @since [*next-version*]
      */
-    protected function _createCouldNotTransitionException(
+    protected function _throwCouldNotTransitionException(
         $message = null,
         $code = null,
         RootException $previous = null,
-        $transitioner = null,
         $subject = null,
         $transition = null
     ) {
-        return $this->_createRealCouldNotTransitionException($message,
+        throw $this->_createCouldNotTransitionException($message,
             $code,
             $previous,
-            $transitioner === null ? $this : $transitioner,
+            $this,
             $subject,
             $transition
         );
