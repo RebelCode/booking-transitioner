@@ -15,7 +15,7 @@
         "php": "^5.4 | ^7.0",
         "rebelcode/booking-interface": "^0.2-alpha1",
         "dhii/data-state-interface": "^0.1-alpha5",
-        "dhii/data-state-abstract": "^0.1-alpha2",
+        "dhii/data-state-abstract": "^0.1-alpha3",
         "dhii/data-state-base": "^0.1-alpha1",
         "dhii/state-machine-abstract": "^0.1-alpha1"
     },
