@@ -8,6 +8,7 @@ use Dhii\Data\Exception\TransitionerExceptionInterface;
 use Dhii\Data\StateAwareFactoryInterface;
 use Dhii\Data\StateAwareInterface;
 use Dhii\State\ReadableStateMachineInterface;
+use Dhii\State\StateMachineFactoryInterface;
 use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use RebelCode\Bookings\BookingTransitioner;
@@ -112,6 +113,22 @@ class BookingTransitionerTest extends TestCase
     }
 
     /**
+     * Creates a state machine factory instance.
+     *
+     * @since [*next-version*]
+     *
+     * @return StateMachineFactoryInterface|MockObject
+     */
+    public function createStateMachineFactory()
+    {
+        $mock = $this->getMockBuilder('Dhii\State\StateMachineFactoryInterface')
+                     ->setMethods(['make'])
+                     ->getMockForAbstractClass();
+
+        return $mock;
+    }
+
+    /**
      * Creates a mock state-aware factory instance for testing purposes.
      *
      * @since [*next-version*]
@@ -169,17 +186,37 @@ class BookingTransitionerTest extends TestCase
      * Tests the constructor to ensure that the appropriate setters are invoked for the given arguments.
      *
      * @since [*next-version*]
-     *
-     * @throws ReflectionException
      */
     public function testConstructor()
     {
-        $factory = $this->createStateAwareFactory();
-        $machine = $this->createReadableStateMachine();
-        $subject = new BookingTransitioner($factory, $machine);
-        $reflect = $this->reflect($subject);
+        $transitions       = [
+            uniqid('state1-') => [
+                uniqid('transition1-') => uniqid('state2-'),
+            ],
+            uniqid('state2-') => [],
+        ];
+        $stateAwareFactory = $this->createStateAwareFactory();
+        $machineFactory    = $this->createStateMachineFactory();
+        $subject           = new BookingTransitioner($transitions, $machineFactory, $stateAwareFactory);
+        $reflect           = $this->reflect($subject);
 
-        $this->assertSame($factory, $reflect->_getStateAwareFactory(), 'Set and retrieved factories are not the same.');
+        $this->assertEquals(
+            $transitions,
+            $reflect->_getTransitions(),
+            'Set and retrieved transition containers are not equal.'
+        );
+
+        $this->assertSame(
+            $machineFactory,
+            $reflect->_getStateMachineFactory(),
+            'Set and retrieved state machine factories are not the same.'
+        );
+
+        $this->assertSame(
+            $stateAwareFactory,
+            $reflect->_getStateAwareFactory(),
+            'Set and retrieved state-aware factories are not the same.'
+        );
     }
 
     /**
@@ -213,21 +250,45 @@ class BookingTransitionerTest extends TestCase
         $transition = uniqid('transition-');
 
         // Set up map for state-aware instance
-        $stateData = ['a' => 1, 'b' => 2];
+        $currState = uniqid('status-');
+        $stateData = ['a' => 1, 'b' => 2, 'status' => $currState];
         $stateMap  = $this->createMap($stateData);
         $stateAware->method('getState')->willReturn($stateMap);
+        // Make map expose status from get()
+        $stateMap->expects($this->atLeastOnce())
+                 ->method('get')
+                 ->with('status')
+                 ->willReturn($currState);
 
-        // Set up old and new state machines for before and after transitioning
-        $machine    = $this->createReadableStateMachine();
+        // The transition graph
+        $newState    = uniqid('new-state-');
+        $transitions = [
+            $currState        => [
+                $transition => $newState,
+            ],
+            uniqid('state2-') => [],
+            uniqid('state3-') => [],
+        ];
+
+        // Set up state machines
         $newMachine = $this->createReadableStateMachine();
-        $newState   = uniqid('new-state-');
-        $newMachine->expects($this->once())
+        $oldMachine = $this->createReadableStateMachine();
+        $oldMachine->expects($this->once())
+                   ->method('transition')
+                   ->with($transition)
+                   ->willReturn($newMachine);
+        $newMachine->expects($this->atLeastOnce())
                    ->method('getState')
                    ->willReturn($newState);
-        $machine->expects($this->once())
-                ->method('transition')
-                ->with($transition)
-                ->willReturn($newMachine);
+        // Set up factory for the first machine
+        $machineFactory = $this->createStateMachineFactory();
+        $machineFactory->expects($this->once())
+                       ->method('make')
+                       ->with([
+                           'initial_state' => $currState,
+                           'transitions'   => $transitions,
+                       ])
+                       ->willReturn($oldMachine);
 
         // Set up new state-aware instance
         $newStateData  = ['a' => 1, 'b' => 2, 'status' => $newState];
@@ -236,14 +297,14 @@ class BookingTransitionerTest extends TestCase
         $newStateAware->method('getState')->willReturn($newStateMap);
 
         // Set up state-aware factory to create new instance
-        $factory = $this->createStateAwareFactory();
-        $factory->expects($this->atLeastOnce())
-                ->method('make')
-                ->with([StateAwareFactoryInterface::K_DATA => $newStateData])
-                ->willReturn($newStateAware);
+        $stateAwareFactory = $this->createStateAwareFactory();
+        $stateAwareFactory->expects($this->atLeastOnce())
+                          ->method('make')
+                          ->with([StateAwareFactoryInterface::K_DATA => $newStateData])
+                          ->willReturn($newStateAware);
 
         // Set up test subject
-        $subject = new BookingTransitioner($factory, $machine);
+        $subject = new BookingTransitioner($transitions, $machineFactory, $stateAwareFactory);
 
         // Run transition and expect returned instance to be the factory-created instance
         $result = $subject->transition($stateAware, $transition);
