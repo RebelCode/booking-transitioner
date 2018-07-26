@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Removed all previous classes.
 - Introduced `BookingTransitioner` which is a transitioner of `StateAwareInterface` instances.
+- `BookingTransitioner` now uses a state machine factory to create disposable state machines.
 
 ## [0.1-alpha1] - 2018-05-15
 Initial version.
