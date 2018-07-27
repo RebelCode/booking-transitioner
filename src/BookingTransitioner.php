@@ -194,7 +194,10 @@ class BookingTransitioner implements TransitionerInterface
         return $this->stateMachineFactory->make(
             [
                 'initial_state' => $subject->getState()->get('status'),
-                'transitions'   => $this->_getTransitions()
+                'transitions'   => $this->_getTransitions(),
+                'event_params'  => [
+                    'booking' => $subject
+                ]
             ]
         );
     }

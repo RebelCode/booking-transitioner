@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+### Added
+- Transitioner passes `event_params` to state machine factory, which contains the transitioning `booking`.
 
 ## [0.2-alpha1] - 2018-07-27
 ### Changed
