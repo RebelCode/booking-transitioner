@@ -287,6 +287,9 @@ class BookingTransitionerTest extends TestCase
                        ->with([
                            'initial_state' => $currState,
                            'transitions'   => $transitions,
+                           'event_params'  => [
+                               'booking' => $stateAware
+                           ]
                        ])
                        ->willReturn($oldMachine);
 
