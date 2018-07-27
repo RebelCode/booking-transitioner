@@ -2,6 +2,8 @@
 
 namespace RebelCode\Bookings;
 
+use ArrayAccess;
+use Dhii\Data\Container\NormalizeContainerCapableTrait;
 use Dhii\Data\CreateCouldNotTransitionExceptionCapableTrait;
 use Dhii\Data\CreateTransitionerExceptionCapableTrait;
 use Dhii\Data\StateAwareFactoryInterface;
@@ -11,9 +13,10 @@ use Dhii\Data\TransitionerInterface;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\State\ReadableStateMachineInterface;
-use Dhii\State\StateMachineAwareTrait;
-use Dhii\State\StateMachineInterface;
+use Dhii\State\StateMachineFactoryInterface;
 use Exception as RootException;
+use Psr\Container\ContainerInterface;
+use stdClass;
 
 /**
  * Implementation of a booking transitioner, that uses a state machine to determine the new booking status.
@@ -23,10 +26,10 @@ use Exception as RootException;
 class BookingTransitioner implements TransitionerInterface
 {
     /* @since [*next-version*] */
-    use TransitionCapableStateMachineTrait;
+    use NormalizeContainerCapableTrait;
 
     /* @since [*next-version*] */
-    use StateMachineAwareTrait;
+    use TransitionCapableStateMachineTrait;
 
     /* @since [*next-version*] */
     use CreateTransitionerExceptionCapableTrait;
@@ -50,17 +53,41 @@ class BookingTransitioner implements TransitionerInterface
     protected $stateAwareFactory;
 
     /**
+     * The state machine factory instance.
+     *
+     * @since [*next-version*]
+     *
+     * @var StateMachineFactoryInterface
+     */
+    protected $stateMachineFactory;
+
+    /**
+     * A container of state keys to maps of transitions to destination states.
+     *
+     * @since [*next-version*]
+     *
+     * @var array|ArrayAccess|stdClass|ContainerInterface
+     */
+    protected $transitions;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param StateAwareFactoryInterface $stateAwareFactory The state-aware factory instance.
-     * @param StateMachineInterface      $stateMachine      The state machine instance.
+     * @param array|ArrayAccess|stdClass|ContainerInterface $transitions         A container of state keys to maps of
+     *                                                                           transitions to destination states.
+     * @param StateMachineFactoryInterface                  $stateMachineFactory The state machine factory instance.
+     * @param StateAwareFactoryInterface                    $stateAwareFactory   The state-aware factory instance.
      */
-    public function __construct(StateAwareFactoryInterface $stateAwareFactory, StateMachineInterface $stateMachine)
-    {
+    public function __construct(
+        $transitions,
+        StateMachineFactoryInterface $stateMachineFactory,
+        StateAwareFactoryInterface $stateAwareFactory
+    ) {
+        $this->_setTransitions($transitions);
+        $this->_setStateMachineFactory($stateMachineFactory);
         $this->_setStateAwareFactory($stateAwareFactory);
-        $this->_setStateMachine($stateMachine);
     }
 
     /**
@@ -85,6 +112,56 @@ class BookingTransitioner implements TransitionerInterface
     protected function _setStateAwareFactory(StateAwareFactoryInterface $stateAwareFactory)
     {
         $this->stateAwareFactory = $stateAwareFactory;
+    }
+
+    /**
+     * Retrieves the state machine factory.
+     *
+     * @since [*next-version*]
+     *
+     * @return StateMachineFactoryInterface The state machine factory instance.
+     */
+    protected function _getStateMachineFactory()
+    {
+        return $this->stateMachineFactory;
+    }
+
+    /**
+     * Sets the state machine factory.
+     *
+     * @since [*next-version*]
+     *
+     * @param StateMachineFactoryInterface $stateMachineFactory The state machine factory instance.
+     */
+    protected function _setStateMachineFactory($stateMachineFactory)
+    {
+        $this->stateMachineFactory = $stateMachineFactory;
+    }
+
+    /**
+     * Retrieves the transitions to use for the created state machines.
+     *
+     * @since [*next-version*]
+     *
+     * @return array|stdClass|ArrayAccess|ContainerInterface A container of state keys to maps of transitions to
+     *                                                       destination states.
+     */
+    protected function _getTransitions()
+    {
+        return $this->transitions;
+    }
+
+    /**
+     * Sets the transitions to use for the created state machines.
+     *
+     * @since [*next-version*]
+     *
+     * @param array|stdClass|ArrayAccess|ContainerInterface $transitions A container of state keys to maps of
+     *                                                                   transitions to destination states.
+     */
+    protected function _setTransitions($transitions)
+    {
+        $this->transitions = $this->_normalizeContainer($transitions);
     }
 
     /**
@@ -114,7 +191,12 @@ class BookingTransitioner implements TransitionerInterface
      */
     protected function _getStateMachineForTransition(StateAwareInterface $subject, $transition)
     {
-        return $this->_getStateMachine();
+        return $this->stateMachineFactory->make(
+            [
+                'initial_state' => $subject->getState()->get('status'),
+                'transitions'   => $this->_getTransitions()
+            ]
+        );
     }
 
     /**
